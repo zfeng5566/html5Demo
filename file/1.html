@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <input id="file" type="file" value="上传">
+</body>
+<script>
+    document.getElementById('file').addEventListener('change',function (e) {
+        let blog = this.files[0];
+        let chunk = blog.slice(0,16);
+        let chunkSize = 1 *1024;
+        let chunkCounts = blog.size/chunkSize + 1;
+        let reader= new FileReader();
+        let num = 0;
+        function read(chunk) {
+           var c =  blog.slice(num * chunkSize,(num+1)*chunkSize);
+           num++;
+            reader.readAsText(c);
+        };
+        reader.onload = function() {
+            console.log(reader.result);
+            num < chunkCounts && read(num);
+        }
+       read(num);
+
+        
+    })
+
+</script>
+</html>
